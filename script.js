@@ -1,40 +1,56 @@
+// code below is taken directly from two repositories and smooshed together
+// the owners of the code are respectively :
 
 
+// pitch detection
+    // https://editor.p5js.org/ml5/sketches/H8iUid_ADl
+
+// connection to sonic pi
+    // mr bomb music at https://github.com/mrbombmusic/sonic-pi-drum-rnn-gui
+
+
+// connection variables
 var socket;
 var isConnected;
 
 
-let vol = 0.0;
+// pitch detection variables
 let mic;
 let pitch;
 let audioContext;
+
+// crepe model for pitch detection
 const model_url = 'https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/';
 
+// key ratio and our scale detection
 const keyRatio = 0.58;
 const scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
+
+// current variables
 let paused = true;
 let notes_played = [];
 let currentNote = '';
 
 
+// SOURCE FOR CODE BELOW MODIFIED BUT STILL FROM: mr bomb music at https://github.com/mrbombmusic/sonic-pi-drum-rnn-gui
+// connection (port in, port out)
 setupOsc(12004, 4560);
 
+// attempting to connect
+socket.emit('message', ['/testMessage', 0]);
 
-socket.emit('message', ['/test', 0]);
-
-document.getElementById('matrix').onclick = async () => {
-  checkMatrix();
+// if send midi button is clicked
+document.getElementById('sendMidi').onclick = async () => {
+    sendBeat();
 }
 
-function checkMatrix() {
-  sendBeat();
-}
-
+// send the beat
 function sendBeat(note, step) {
   if (isConnected) {
     socket.emit('message', ['/notes', notes_played]);
   }
+  // clear the notes_played list
   notes_played = [];
 }
 
@@ -76,6 +92,7 @@ function setupOsc(oscPortIn, oscPortOut) {
 }
 
 
+// SOURCE FOR CODE BELOW MODIFIED BUT STILL FROM: https://editor.p5js.org/ml5/sketches/H8iUid_ADl
 function setup() {
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
@@ -106,12 +123,6 @@ function touchPaused() {
   paused = true;
 }
 
-function sendNotes() {
-  notes_played = [];
-}
-
-
-
 //Load the model and get the pitch
 function modelLoaded() {
   select('#status').html('Model Loaded');
@@ -127,14 +138,12 @@ function addNotes(midiNum) {
 
 }
 
-//Get the pitch, find the closest note and set the fill color
+// Get the pitch, find the closest note and set the fill color
 function getPitch() {
   pitch.getPitch(function(err, frequency) {
     if (frequency) {
       let midiNum = freqToMidi(frequency);
       currentNote = scale[midiNum % 12];
-      // fill(colors[midiNum % 12]);
-      // select('#noteAndVolume').html('Note: ' + currentNote + " - volume " + nf(vol,1,2));
 
       if(paused !== true){
         addNotes(midiNum)
