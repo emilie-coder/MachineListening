@@ -1,5 +1,6 @@
 // code below is taken directly from two repositories and smooshed together
 // the owners of the code are respectively :
+// both code combinations have been stripped and modified to fit needs of this assignment
 
 
 // pitch detection
@@ -30,6 +31,7 @@ const scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 // current variables
 let paused = true;
 let notes_played = [];
+let notes_time = [];
 let currentNote = '';
 
 
@@ -49,9 +51,11 @@ document.getElementById('sendMidi').onclick = async () => {
 function sendBeat(note, step) {
   if (isConnected) {
     socket.emit('message', ['/notes', notes_played]);
+    socket.emit('message', ['/times', notes_time]);
   }
   // clear the notes_played list
   notes_played = [];
+  notes_time = [];
 }
 
 function sendOsc(address, value) {
@@ -119,8 +123,9 @@ function touchStarted() {
 }
 
 function touchPaused() {
-  notes_played = [];
   paused = true;
+  notes_played = [];
+  notes_time = [];
 }
 
 //Load the model and get the pitch
@@ -132,9 +137,14 @@ function modelLoaded() {
 function addNotes(midiNum) {
   
   // check if the previous note is the same, if so do nothing
-  // if (notes_played[notes_played.length - 1] !== midiNum){
+  if (notes_played[notes_played.length - 1] !== midiNum){
+    // new note - push note and new time
     notes_played.push(midiNum)
-  // }
+    notes_time.push(0.1);
+  } else {
+    // old time, time += 1
+    notes_time[notes_played.length - 1] = notes_time[notes_played.length - 1] + 0.1;
+  }
 
 }
 

@@ -1,6 +1,7 @@
 
 /*!
- * This code is directly copied from MrBombMusic repo
+ * This code is directly copied from MrBombMusic repo!!!!!
+ *
  * socket.io-node
  * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
  * MIT Licensed
