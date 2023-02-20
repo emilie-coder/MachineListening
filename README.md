@@ -2,7 +2,7 @@
 ## Machine Listening and Response Generation
 For my music and AI final project, I aim to create a machine listening that takes in information from microphone input and returns a melodic response. 
 
-## Code inspiration
+## Code References
 Two repos in particular I have drawn upon so far for basic set up.
 - For microphone input, I based my implementation and took code from this website: https://editor.p5js.org/ml5/sketches/H8iUid_ADl. This was a fun implementation of pitch and midi note detection based on p5js pitch detection and ml5 using the crepe method where the details for this can be found: https://github.com/ml5js/ml5-library. There are many tutorials online that use this library for instrument tuning such as this one: https://www.youtube.com/watch?v=PCf0fjR1tUk. If I am not mistaken, this implementation is based off of tensorflow.js and it is decently accurate. 
 - For sending messages to sonic pi from the web based on a local server, I based my implementation and took code from a youtube creator who implemented a drum beat generator on a web application. His video describing his implementation is here: https://www.youtube.com/watch?v=9GHz_-xZPQs&t=45s. The github repo, under the name MrBombMusic can be found here: https://github.com/mrbombmusic/sonic-pi-drum-rnn-gui. From this repo, I learned how to send messages from a web based application to sonic pi. 
