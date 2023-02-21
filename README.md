@@ -46,6 +46,9 @@ The main problems encountered are:
 - output of the tone recognition is messy (patched with some arbitrary simple code to prevent multiple repeating notes added)
 - no beat recognition (currently solving)
 
+### Checkpoint 3.5 
+For the base generation, I transcibed parts of this song https://www.youtube.com/watch?v=JHPSE0GrDqI which is Nissan - song in E flat major for piano, and slowed it down to create the underlying music
+
 ### Checkpoint 4
 Create a generative response from the refined input.
 
