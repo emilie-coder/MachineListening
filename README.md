@@ -4,7 +4,11 @@ For my music and AI final project, I aim to create a machine listening that take
 
 ## Code References
 Two repos in particular I have drawn upon so far for basic set up.
+### Microphone Input
 - For microphone input, I based my implementation and took code from this website: https://editor.p5js.org/ml5/sketches/H8iUid_ADl. This was a fun implementation of pitch and midi note detection based on p5js pitch detection and ml5 using the crepe method where the details for this can be found: https://github.com/ml5js/ml5-library. There are many tutorials online that use this library for instrument tuning such as this one: https://www.youtube.com/watch?v=PCf0fjR1tUk. If I am not mistaken, this implementation is based off of tensorflow.js and it is decently accurate. 
+- The tone recognition is a neural network called CREPE which stands for 'Convolutional Representation for Pitch Estimation' which can be read more about at this github: https://github.com/marl/crepe
+
+### Connecting Web to Sonic pi
 - For sending messages to sonic pi from the web based on a local server, I based my implementation and took code from a youtube creator who implemented a drum beat generator on a web application. His video describing his implementation is here: https://www.youtube.com/watch?v=9GHz_-xZPQs&t=45s. The github repo, under the name MrBombMusic can be found here: https://github.com/mrbombmusic/sonic-pi-drum-rnn-gui. From this repo, I learned how to send messages from a web based application to sonic pi. 
 - for the browser to connect to sonic pi, one will need to download this repo: https://github.com/genekogan/p5js-osc from the github user Genekogan. OSC stands for open sound control. This is a p5js implementation based off of the osc-web application as described in the readme of this repo. 
 
