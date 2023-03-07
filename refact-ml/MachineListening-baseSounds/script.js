@@ -102,7 +102,7 @@ function setup() {
   mic = new p5.AudioIn();
   mic.start(startPitch);
 
-  button = createButton('start mic');
+  button = createButton('allow mic');
   // button.position(0, 0);
   button.mousePressed(touchStarted);
 
@@ -110,6 +110,14 @@ function setup() {
   button1 = createButton('pause mic');
   // button1.position(100, 0);
   button1.mousePressed(touchPaused);
+
+  button2 = createButton('record');
+  // button.position(0, 0);
+  button2.mousePressed(touchRecord);
+
+  button3 = createButton('clear');
+  // button.position(0, 0);
+  button3.mousePressed(touchClear);
   
 }
 
@@ -118,14 +126,27 @@ function startPitch() {
 }
 
 function touchStarted() {
-  paused = false;
+  console.log("allowing microphone access ---")
   getAudioContext().resume();
 }
 
 function touchPaused() {
+  console.log("paused audio *********")
   paused = true;
-  notes_played = [];
-  notes_time = [];
+  console.log("current list: ", notes_played)
+}
+
+function touchRecord() {
+  console.log("playing audio %%%%%%")
+  paused = false;
+}
+
+function touchClear() {
+  console.log("playing audio ++++++++")
+  notes_played = []
+  notes_time = []
+  console.log(notes_played, notes_time)
+  console.log("++++++++++++")
 }
 
 //Load the model and get the pitch
@@ -137,15 +158,17 @@ function modelLoaded() {
 function addNotes(midiNum) {
   
   // check if the previous note is the same, if so do nothing
-  if (notes_played[notes_played.length - 1] !== midiNum){
-    // new note - push note and new time
-    notes_played.push(midiNum)
-    notes_time.push(0.1);
-  } else {
-    // old time, time += 1
-    notes_time[notes_played.length - 1] = notes_time[notes_played.length - 1] + 0.1;
+  if(paused !== true){
+    if (notes_played[notes_played.length - 1] !== midiNum){
+      // new note - push note and new time
+      notes_played.push(midiNum)
+      notes_time.push(0.1);
+      console.log("MIDI NUMBER HERE", midiNum)
+    } else {
+      // old time, time += 1
+      notes_time[notes_played.length - 1] = notes_time[notes_played.length - 1] + 0.1;
+    }
   }
-
 }
 
 // Get the pitch, find the closest note and set the fill color
