@@ -1,0 +1,194 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2638
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 ##-----------------------------------------------------------------------------------------------------------------\
+##------------       NOTE GENERATION     - NO DIRECTION                                        --------------------\
+##-----------------------------------------------------------------------------------------------------------------\
+\
+# This function pseudorandomly produces notes in one key\
+define :produce_notes do |midi, maj_or_min, note_length_list|\
+  \
+  # CREDIT FOR THIS RANDOM GENERATOR: https://in-thread.sonic-pi.net/t/randomizing-the-random-seed-with-computer-clock-timer/5560\
+  use_random_seed Time.now.to_i\
+  \
+  # We learned about scale in class, but for further reference or to learn more, I reference:\
+  #     https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/tutorial/08.3-Scales.md\
+  notes = scale(midi, maj_or_min)\
+  \
+  final_notes = []\
+  \
+  note_length_list.each do |length|\
+    note = choose(notes)\
+    final_notes.push(note)\
+  end\
+  \
+  return final_notes\
+end\
+\
+\
+##-----------------------------------------------------------------------------------------------------------------\
+##------------       NOTE GENERATION     -   WE WANT DIRECTION                                      ---------------\
+##-----------------------------------------------------------------------------------------------------------------\
+# This function pseudorandomly produces notes in one key that either ascends and descends or vice versa\
+\
+define :produce_directional_notes do |midi, maj_or_min, note_length_list, direction|\
+  # CREDIT FOR THIS RANDOM GENERATOR: https://in-thread.sonic-pi.net/t/randomizing-the-random-seed-with-computer-clock-timer/5560\
+  use_random_seed Time.now.to_i\
+  \
+  # We learned about scale in class, but for further reference or to learn more, I reference:\
+  #     https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/tutorial/08.3-Scales.md\
+  notes = scale(midi, maj_or_min)\
+  \
+  halfway = notes.length / 2\
+  final_notes = []\
+  \
+  note_length_list.each_with_index do |length, i|\
+    if direction == :up\
+      # Ascend up to the halfway point, then descend\
+      if i < halfway\
+        note = notes[i]\
+      else\
+        note = notes[notes.length - 1 - i]\
+      end\
+    else\
+      # Descend first, then ascend\
+      if i < halfway\
+        note = notes[notes.length - 1 - i]\
+      else\
+        note = notes[i]\
+      end\
+    end\
+    \
+    final_notes.push(note)\
+  end\
+  return final_notes\
+end\
+\
+\
+\
+##-----------------------------------------------------------------------------------------------------------------\
+##------------       VARIABLE DEFNITIONS                                                            ---------------\
+##-----------------------------------------------------------------------------------------------------------------\
+\
+r1 = [1,1,1,1,1,1,1,1]\
+\
+my_array = [1,1,1,1,1,1,1,1] * 2\
+r2 = my_array.map \{|num| num / 2.0\}\
+\
+\
+\
+\
+##-----------------------------------------------------------------------------------------------------------------\
+##------------       VARIABLE DEFNITIONS                                                            ---------------\
+##-----------------------------------------------------------------------------------------------------------------\
+\
+\
+\
+\
+r1 = [1,1,1,1,1,1,1,1]\
+\
+my_array = [1,1,1,1,1,1,1,1] * 2\
+r2 = my_array.map \{|num| num / 2.0\}\
+\
+\
+my_array = [1,1,1,1,1,1,1,1] * 3\
+r3 = my_array.map \{|num| num / 3.0\}\
+\
+my_array = [1,1,1,1,1,1,1,1] * 4\
+r4 = my_array.map \{|num| num / 4.0\}\
+\
+my_array = [1,1,1,1,1,1,1,1] * 5\
+r5 = my_array.map \{|num| num / 5.0\}\
+\
+\
+my_array = [1,1,1,1,1,1,1,1] * 6\
+r6 = my_array.map \{|num| num / 6.0\}\
+\
+\
+# a4, d5, c5\
+m3 = [ 81, 86, 84, :rest]\
+\
+use_synth :piano\
+\
+\
+\
+\
+in_thread do\
+  loop do\
+    sync :heart_beat\
+    note_list_a = produce_directional_notes 60, :minor, r1, :up\
+    r1.length.times do\
+      play note_list_a.tick, amp: 0.1\
+      sleep r1.tick\
+    end\
+  end\
+end\
+\
+##| in_thread do\
+##|   loop do\
+##|     sync :heart_beat\
+##|     note_list_b = produce_directional_notes 60, :minor, r2, :down\
+##|     r2.length.times do\
+##|       play note_list_b.tick, amp: 0.1\
+##|       sleep r2.tick\
+##|     end\
+##|   end\
+##| end\
+\
+\
+##| in_thread do\
+##|   loop do\
+##|     sync :heart_beat\
+##|     note_list_c = produce_directional_notes 60, :minor, r3, :up\
+##|     r3.length.times do\
+##|       play note_list_c.tick, amp: 0.1\
+##|       sleep r3.tick\
+##|     end\
+##|   end\
+##| end\
+\
+##| in_thread do\
+##|   loop do\
+##|     sync :heart_beat\
+##|     note_list_d = produce_directional_notes 60, :minor, r4, :down\
+##|     r4.length.times do\
+##|       play note_list_d.tick, amp: 0.1\
+##|       sleep r4.tick\
+##|     end\
+##|   end\
+##| end\
+\
+##| in_thread do\
+##|   loop do\
+##|     sync :heart_beat\
+##|     note_list_e = produce_directional_notes 60, :minor, r5, :down\
+##|     r5.length.times do\
+##|       play note_list_e.tick, amp: 0.1\
+##|       sleep r5.tick\
+##|     end\
+##|   end\
+##| end\
+\
+in_thread do\
+  loop do\
+    sync :heart_beat\
+    note_list_f = produce_directional_notes 60, :minor, r6, :down\
+    r6.length.times do\
+      play note_list_f.tick, amp: 0.1\
+      sleep r6.tick\
+    end\
+  end\
+end\
+\
+\
+in_thread do\
+  2.times do\
+    cue :heart_beat\
+    sleep 1\
+  end\
+end\
+}

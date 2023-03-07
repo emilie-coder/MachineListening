@@ -12,6 +12,10 @@ Two repos in particular I have drawn upon so far for basic set up.
 - For sending messages to sonic pi from the web based on a local server, I based my implementation and took code from a youtube creator who implemented a drum beat generator on a web application. His video describing his implementation is here: https://www.youtube.com/watch?v=9GHz_-xZPQs&t=45s. The github repo, under the name MrBombMusic can be found here: https://github.com/mrbombmusic/sonic-pi-drum-rnn-gui. From this repo, I learned how to send messages from a web based application to sonic pi. 
 - for the browser to connect to sonic pi, one will need to download this repo: https://github.com/genekogan/p5js-osc from the github user Genekogan. OSC stands for open sound control. This is a p5js implementation based off of the osc-web application as described in the readme of this repo. 
 
+### Sonic Pi references
+- For some random note generation, I found this cool implementation for random numbers based on Time from this website: https://in-thread.sonic-pi.net/t/randomizing-the-random-seed-with-computer-clock-timer/5560. It is cited in the code function as well. 
+- For some scale functionality, I referenced some of these functions outlined in this github: https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/tutorial/08.3-Scales.md. Wherever referenced, cited in the sonic pi files accordingly. 
+
 ## How to run the code
 - clone this repo
 -- $ git clone https://github.com/emilie-coder/MusicAIFinal.git
