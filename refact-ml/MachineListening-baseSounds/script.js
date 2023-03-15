@@ -149,6 +149,19 @@ function touchClear() {
   console.log("++++++++++++")
 }
 
+function clearSend() {
+  sendBeat();
+  touchClear();
+  touchRecord();
+}
+
+
+// send notes every second
+setInterval(clearSend(), {
+}, 1000);
+
+setInterval(clearSend, 1000);
+
 //Load the model and get the pitch
 function modelLoaded() {
   select('#status').html('Model Loaded');

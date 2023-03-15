@@ -1,0 +1,174 @@
+use_osc "localhost", 12004# Welcome to Sonic Pi
+
+
+##-----------------------------------------------------------------------------------------------------------------
+##------------       NOTE GENERATION     - NO DIRECTION                                        --------------------
+##-----------------------------------------------------------------------------------------------------------------
+
+
+define :ntosym do |n|
+  note_info(n).to_s.split(" ")[1][1..-2].to_sym
+end
+
+## This function pseudorandomly produces notes in one key
+define :produce_notes do |midi, maj_or_min, note_length_list, odds_of_rest|
+  
+  ## E flat major scale
+  eb_major_scale = scale(:eb3, maj_or_min).to_a
+  
+  ## Check if the starting MIDI note is in E flat major scale. If not, round to the closest note in the E flat major scale.
+  starting_note = ntosym(midi)
+  theme_note = midi
+  if eb_major_scale.include?(starting_note)
+    puts 'YAY YOURE IN KEY'
+  else
+    puts 'BOO YOU ARE OUT OF KEY'
+    puts ' YOU ARE BEING ROUNDED FROM '
+    puts midi
+    starting_note = eb_major_scale.sort_by { |n| (n - midi).abs }[0]
+    puts ' TO '
+    puts starting_note
+    theme_note = starting_note
+  end
+  
+  octave_range = (theme_note-12)..(theme_note+12)
+  scale_range = eb_major_scale.select { |n| octave_range.include?(n) }
+  
+  # Choose the starting note with higher probability
+  if one_in(2)
+    final_notes = [ntosym(theme_note)]
+    
+  else
+    final_notes = []
+  end
+  
+  # Add random notes from the scale within the octave range
+  note_length_list.each do |length|
+    if one_in(odds_of_rest)
+      final_notes.push(:r)
+    else
+      note = choose(scale_range)
+      final_notes.push(ntosym(note))
+    end
+  end
+  return final_notes
+end
+r1 = [1,1,1,1,1,1,1,1]
+
+my_array = [1,1,1,1,1,1,1,1] * 2
+r2 = my_array.map {|num| num / 3.0}
+
+my_array = [1,1,1,1,1,1,1,1] * 6
+r5 = my_array.map {|num| num / 12.0}
+
+
+##---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##------------       VOICE INPUT                                                   ------------------------------------------------------------------------------------------
+##---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+with_fx :reverb, mix: 0.1, room: 0.1 do
+  synth :sound_in, sustain: 3600, amp: 0.2
+end
+
+
+
+##---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##------------       RECIEVING INFORMATION FROM BROWSER                                             -------------------------------------------------------------------------
+##---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+live_loop :importdata do
+  
+  # sync functions from Mr Bomb Music Git hub athttps://github.com/mrbombmusic/sonic-pi-drum-rnn-gui.
+  use_real_time
+  a = sync "/osc*/notes"
+  b = sync "/osc*/times"
+  set :notes, a
+  set :times, b
+  puts a
+  
+  # my code
+  
+  
+  
+  ##| with_fx :echo, phase: 0.1  do
+  with_fx :reverb, mix: 0.4, room: 0.5 do
+    
+    sync :heart_beat
+    my_midi = a.first
+    
+    
+    ##| use_synth :dsaw
+    ##| in_thread do
+    ##|   play my_midi, amp: 0.01, sustain: 20
+    ##| end
+    
+    
+   arr_a = [1,1,1,1,1,1,1,1] * (rrand(1, 12).round)
+   r_a = my_array.map {|num| num / (rrand(1, 12).round)}
+    
+    use_synth :kalimba
+    in_thread do
+      # NOWWW hopefully it syncs
+      # and then we are going to use the first note we get to generate a list
+      note_list_a = produce_notes my_midi, :major, r2, 4
+      r2.length.times do
+        play note_list_a.tick + 12, amp: 0.1
+        sleep r2.tick
+      end
+    end
+    
+    use_synth :kalimba
+    in_thread do
+      
+      # NOWWW hopefully it syncs
+      # and then we are going to use the first note we get to generate a list
+      note_list_c = produce_notes my_midi, :major, r5, 6
+      r5.length.times do
+        play note_list_c.tick + 24, amp: 0.1
+        sleep r5.tick
+      end
+    end
+    
+    use_synth :kalimba
+    in_thread do
+      
+      # NOWWW hopefully it syncs
+      # and then we are going to use the first note we get to generate a list
+      note_list_b = produce_notes my_midi, :major, r1, 2
+      r1.length.times do
+        play note_list_b.tick, amp: 0.1
+        sleep r1.tick
+      end
+    end
+    
+    
+    use_synth :kalimba
+    in_thread do
+      
+      # NOWWW hopefully it syncs
+      # and then we are going to use the first note we get to generate a list
+      note_list_b = produce_notes my_midi, :major, r1, 2
+      r1.length.times do
+        play note_list_b.tick, amp: 0.1
+        sleep r1.tick
+      end
+    end
+    
+  end
+  ##| end
+  
+end
+
+
+# we are going to stick this at the end of the file and go upwards from there
+
+in_thread do
+  loop do
+    cue :heart_beat
+    play chord(:Eb, :major7), amp: 0.01
+    sleep 2
+  end
+end
+
+

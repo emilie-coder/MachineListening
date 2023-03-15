@@ -15,6 +15,8 @@ Two repos in particular I have drawn upon so far for basic set up.
 ### Sonic Pi references
 - For some random note generation, I found this cool implementation for random numbers based on Time from this website: https://in-thread.sonic-pi.net/t/randomizing-the-random-seed-with-computer-clock-timer/5560. It is cited in the code function as well. 
 - For some scale functionality, I referenced some of these functions outlined in this github: https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/tutorial/08.3-Scales.md. Wherever referenced, cited in the sonic pi files accordingly. 
+- Mapping midi to note names from Robin Newman here: https://in-thread.sonic-pi.net/t/midi-number-to-note-name-debuging/3335/3
+- fx synth exploration: https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/cheatsheets/fx.md#wobble
 
 ## How to run the code
 - clone this repo
