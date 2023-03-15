@@ -17,6 +17,9 @@ Two repos in particular I have drawn upon so far for basic set up.
 - For some scale functionality, I referenced some of these functions outlined in this github: https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/tutorial/08.3-Scales.md. Wherever referenced, cited in the sonic pi files accordingly. 
 - Mapping midi to note names from Robin Newman here: https://in-thread.sonic-pi.net/t/midi-number-to-note-name-debuging/3335/3
 - fx synth exploration: https://github.com/sonic-pi-net/sonic-pi/blob/dev/etc/doc/cheatsheets/fx.md#wobble
+- ruby sort_by functions https://www.rubyguides.com/2017/07/ruby-sort/
+- creating a range of notes in ruby: https://ruby-doc.org/core-2.5.1/Range.html
+- ruby select functions: https://www.rubyguides.com/2019/04/ruby-select-method/
 
 ## How to run the code
 - clone this repo
